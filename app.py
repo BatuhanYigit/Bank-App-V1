@@ -1,4 +1,6 @@
 import random
+
+
 def kayit():
     print("********************HESAP AÇMA EKRANI********************")
     username = random.randint(0,999999999)
@@ -34,12 +36,15 @@ def giris():
             
             
             """.format(username))
-            # islem()
+            
+            
+
+
     print("Hesap Numarası Veya Şifre Yanlış")
     return False
     
-# def islem(giris):
-#     print("merhaba".format(giris.username))
+def islem(giris):
+     print("merhaba".format(giris.username))
 
 
 print("""
