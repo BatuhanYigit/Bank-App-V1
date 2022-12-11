@@ -1,0 +1,17 @@
+User tablosu açılacak
+    - ID
+    - Hesap Numarası
+    - Şifre
+    - İsim Soyisim
+
+Bakiye Tablosu Açılacak
+    - ID
+    - Hesap Numarası foreign key
+    - Bakiye
+
+İşlem Geçmişi Tablosu Açılacak
+    - ID
+    - Hesap Numarası
+    - Bakiye
+    - Miktar
+    - İşlem
