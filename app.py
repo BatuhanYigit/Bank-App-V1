@@ -82,6 +82,10 @@ def giris():
     islem1 = input("Yapılacak işlemi seçiniz : ")
     if(islem1 == "1"):
         parayukle()
+    elif(islem1 == "2"):
+        paracekme()
+    elif(islem1 == "3"):
+        paragonderme()
     else:
         print("Yanlış İşlem")
             
@@ -92,23 +96,98 @@ def parayukle():
     df_bakiye = pd.read_csv('./store/bakiye.csv')
     miktar = input("Hesaba Yüklenecek Miktarı Giriniz : ")
     
+    index_control  = df_bakiye.index[df_bakiye["AccountID"].isin([int(username)])].tolist()
+
     bakiyeinfo = df_bakiye[df_bakiye["AccountID"].isin([int(username)])]
+    
     
     
     islem = int(bakiyeinfo["Balance"]) + int(miktar)
     islem = str(islem)
     bakiyeinfo = bakiyeinfo.append(bakiyeinfo, ignore_index=True)
     
-    print(islem)
-    # data.loc[3] = ['PineApple','Yellow','48']
-    bakiyeinfo.loc[0, 'Balance'] = [islem]
-    bakiyeinfo = bakiyeinfo.append(bakiyeinfo, ignore_index=True)
-    print(bakiyeinfo.loc[0])
+    print("Güncel Bakiyeniz = {}".format(islem))
+    
+    df_bakiye.loc[index_control, 'Balance'] = islem
+    df_bakiye.to_csv('./store/bakiye.csv', index=False)
+    
+
+    # bakiyeinfo.loc[0, 'Balance'] = [islem]
+    # bakiyeinfo = bakiyeinfo.append(bakiyeinfo, ignore_index=True)
+    # print(bakiyeinfo.loc[0])
 
     
     
     # print(islem)
     # print(bakiyeinfo)
+
+def paracekme():
+    username = input("Para Çekilecek hesap no giriniz : ")
+    df = pd.read_csv("./store/user-table.csv")
+    df_bakiye = pd.read_csv('./store/bakiye.csv')
+    miktar = input("Hesaba Yüklenecek Miktarı Giriniz : ")
+    
+    index_control  = df_bakiye.index[df_bakiye["AccountID"].isin([int(username)])].tolist()
+
+    bakiyeinfo = df_bakiye[df_bakiye["AccountID"].isin([int(username)])]
+    bakiye = int(bakiyeinfo["Balance"])
+
+    if(int(bakiye) < int(miktar)):
+        print("Bakiyeniz Yetersiz")
+    
+    else:
+    
+    
+        islem = int(bakiyeinfo["Balance"]) - int(miktar)
+        islem = str(islem)
+        bakiyeinfo = bakiyeinfo.append(bakiyeinfo, ignore_index=True)
+        
+        print("Güncel Bakiyeniz = {}".format(islem))
+        
+        df_bakiye.loc[index_control, 'Balance'] = islem
+        df_bakiye.to_csv('./store/bakiye.csv', index=False)
+       
+
+        # bakiyeinfo.loc[0, 'Balance'] = [islem]
+        # bakiyeinfo = bakiyeinfo.append(bakiyeinfo, ignore_index=True)
+        # print(bakiyeinfo.loc[0])
+
+        
+        
+        # print(islem)
+        # print(bakiyeinfo)
+
+def paragonderme():
+    username = input("İşlem yapılacak hesap numaranızı giriniz : ")
+    alici = input("Para gönderilecek Hesap Numarasını Giriniz : ")
+    miktar = input("Gönderilecek Miktarı Gİriniz : ")
+    df = pd.read_csv("./store/user-table.csv")
+    df_bakiye = pd.read_csv('./store/bakiye.csv')
+    
+    
+    index_control  = df_bakiye.index[df_bakiye["AccountID"].isin([int(username)])].tolist()
+    index_control2 = df_bakiye.index[df_bakiye["AccountID"].isin([int(alici)])].tolist()
+
+    bakiyeinfo = df_bakiye[df_bakiye["AccountID"].isin([int(username)])]
+    bakiyeinfo2 = df_bakiye[df_bakiye["AccountID"].isin([int(alici)])]
+    bakiye2 = int(bakiyeinfo["Balance"])
+    bakiye = int(bakiyeinfo["Balance"])
+    if(int(bakiye) < int(miktar)):
+        print("Bakiyeniz Yetersiz")
+    else:
+
+        islem = int(bakiyeinfo["Balance"]) - int(miktar)
+        islem = str(islem)
+        islem2 = int(bakiyeinfo2["Balance"]) + int(miktar)
+        islem2 = str(islem2)
+        bakiyeinfo = bakiyeinfo.append(bakiyeinfo, ignore_index=True)
+        bakiyeinfo2 = bakiyeinfo2.append(bakiyeinfo2, ignore_index=True)
+        print("Güncel Bakiyeniz = {}".format(islem))
+            
+        df_bakiye.loc[index_control, 'Balance'] = islem
+        df_bakiye.loc[index_control2, 'Balance'] = islem2
+        df_bakiye.to_csv('./store/bakiye.csv', index=False)
+
 
     
 
