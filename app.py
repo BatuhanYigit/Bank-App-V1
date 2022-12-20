@@ -91,9 +91,13 @@ def giris():
             
             
 def parayukle():
+
+
+    operation = "Para Yükleme"
     username = input("Para yüklenecek hesap no giriniz : ")
     df = pd.read_csv("./store/user-table.csv")
     df_bakiye = pd.read_csv('./store/bakiye.csv')
+    df_islem_gecmisi = pd.read_csv('./store/islem-gecmisi.csv')
     miktar = input("Hesaba Yüklenecek Miktarı Giriniz : ")
     
     index_control  = df_bakiye.index[df_bakiye["AccountID"].isin([int(username)])].tolist()
@@ -107,10 +111,27 @@ def parayukle():
     bakiyeinfo = bakiyeinfo.append(bakiyeinfo, ignore_index=True)
     
     print("Güncel Bakiyeniz = {}".format(islem))
+
+    balance = bakiyeinfo["Balance"].to_string(index=False)
     
+
+    transactioninfo = {
+
+        'AccountID' : username,
+        'Balance' : 'null',
+        'Quantity' : miktar,
+        'Operation' : operation,
+        'CurrentBalance' : islem,
+
+    }
     df_bakiye.loc[index_control, 'Balance'] = islem
     df_bakiye.to_csv('./store/bakiye.csv', index=False)
-    
+    df_islem_gecmisi = df_islem_gecmisi.append(transactioninfo, ignore_index=True)
+    print(df_islem_gecmisi)
+    df_islem_gecmisi.to_csv('./store/islem-gecmisi.csv', index=False)
+
+
+
 
     # bakiyeinfo.loc[0, 'Balance'] = [islem]
     # bakiyeinfo = bakiyeinfo.append(bakiyeinfo, ignore_index=True)

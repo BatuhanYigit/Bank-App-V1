@@ -1,1 +1,2 @@
-﻿ID;AccountID;Balance;Quantity;Operation
+AccountID,Balance,CurrentBalance,Operation,Quantity
+559162269,Null,750,Para Yükleme,150
