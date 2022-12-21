@@ -7,3 +7,12 @@ AccountID,Balance,CurrentBalance,Operation,Quantity,Recipience
 657816677,103853,91853,Para Gönderme,12000,Batuhan Yiğit
 578412565,400,150400,Para Yükleme,150000,
 578412565,150400,150277,Para Gönderme,123,Batuhan Yiğit
+657816677,91853,90853,Para Gönderme,1000,Batuhan Yiğit
+909414173,35240,36240,Gelen Para,1000,Ahmet Uçarkuş
+909414173,36240,51240,Para Yükleme,15000,
+909414173,51240,36240,Para Gönderme,15000,Ahmet Uçarkuş
+657816677,90853,105853,Gelen Para,15000,Batuhan Yiğit
+909414173,36240,48240,Para Yükleme,12000,
+909414173,48240,36240,Para Çekme,12000,
+909414173,36240,35240,Para Gönderme,1000,Ahmet Uçarkuş
+657816677,105853,106853,Gelen Para,1000,Batuhan Yiğit
