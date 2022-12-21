@@ -1,3 +1,9 @@
-AccountID,Balance,CurrentBalance,Operation,Quantity
-909414173,,25100,Para Yükleme,25000
-909414173,null,24850,Para Çekme,250
+AccountID,Balance,CurrentBalance,Operation,Quantity,Recipience
+909414173,23477,23357,Para Gönderme,120,Ahmet Uçarkuş
+909414173,23357,23237,Para Gönderme,120,Mertcan ELik
+909414173,23237,23117,Para Çekme,120,
+657816677,2653,3853,Para Yükleme,1200,
+657816677,3853,103853,Para Yükleme,100000,
+657816677,103853,91853,Para Gönderme,12000,Batuhan Yiğit
+578412565,400,150400,Para Yükleme,150000,
+578412565,150400,150277,Para Gönderme,123,Batuhan Yiğit
