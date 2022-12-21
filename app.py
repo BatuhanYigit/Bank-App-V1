@@ -108,7 +108,7 @@ def parayukle():
     bakiyeinfo = df_bakiye[df_bakiye["AccountID"].isin([int(username)])]
     
     
-    if miktar > 0:
+    if int(miktar) > 0:
 
         islem = int(bakiyeinfo["Balance"]) + int(miktar)
         islem = str(islem)
