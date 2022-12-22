@@ -18,3 +18,9 @@ AccountID,Balance,CurrentBalance,Operation,Quantity,Recipience,ForeignCurrency
 657816677,105853,106853,Gelen Para,1000,Batuhan Yiğit,
 46522678,100220,100120,Para Çekme,100,,
 909414173,3205171,3205271,Para Yükleme,100,,TL
+657816677,106853,106953,Para Yükleme,100,,TL
+657816677,106953,106853,Para Çekme,100,,
+657816677,106853,106953,Para Yükleme,100,,TL
+657816677,106953,105953,Para Çekme,1000,,
+657816677,105953,105833,Para Gönderme,120,Emre Uysal,TL
+995069370,90,210,Gelen Para,120,Ahmet Uçarkuş,TL

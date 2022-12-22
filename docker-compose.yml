@@ -4,7 +4,7 @@ services:
   banka:
     build: .
     volumes:
-      - store:/app/store
+      - ./store:/app/store
 
 
 
