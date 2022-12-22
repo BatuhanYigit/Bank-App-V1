@@ -158,7 +158,7 @@ def paracekme():
     
     else:
     
-        if miktar > 0:
+        if int(miktar) > 0:
             islem = int(bakiyeinfo["Balance"]) - int(miktar)
             islem = str(islem)
             bakiyeinfo = bakiyeinfo.append(bakiyeinfo, ignore_index=True)
