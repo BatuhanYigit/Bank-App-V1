@@ -41,146 +41,160 @@ def kayit():
     print("Hesap Numaranız {} Bu numarayı kayıt etmenizi tavsiye ederiz.".format(username))
     
 def giris():
-    df = pd.read_csv("./store/user-table.csv")
-    df_bakiye = pd.read_csv('./store/bakiye.csv')
-    # username = input("Hesap Numaranızı Giriniz :" )
-    # password = input("Şifrenizi Gİriniz : ")
-    userinfo = df[df["AccountID"].isin([int(username)])]
-    userinfo = userinfo.append(userinfo, ignore_index=True)
-    bakiyeinfo = df_bakiye[df_bakiye["AccountID"].isin([int(username)])]
-    
+    try:
+        df = pd.read_csv("./store/user-table.csv")
+        df_bakiye = pd.read_csv('./store/bakiye.csv')
+        # username = input("Hesap Numaranızı Giriniz :" )
+        # password = input("Şifrenizi Gİriniz : ")
+        userinfo = df[df["AccountID"].isin([int(username)])]
+        userinfo = userinfo.append(userinfo, ignore_index=True)
+        bakiyeinfo = df_bakiye[df_bakiye["AccountID"].isin([int(username)])]
+        
 
-    control = df[df["AccountID"].isin([int(username)])]
+        control = df[df["AccountID"].isin([int(username)])]
 
-    accountid = control["AccountID"]
-    accountpass = control["Password"]
+        accountid = control["AccountID"]
+        accountpass = control["Password"]
 
-    
-    if(accountid.empty and accountpass.empty):
-        print("Kullanıcı adı şifre yanlış")
-    
-    while True:
-        if(username == str(accountid.values[0]) and password == str(accountpass.values[0])):      
-            print("""
-                        ****************************BANKA UYGULAMASI****************************
-                                                
-                                                        HOŞGELDİNİZ
-                            HESAP NO : {}
-                            Bakiye : {}
-                            İsim Soyisim : {}
-                            1- PARA YÜKLE
-                            2- PARA ÇEKME
-                            3- HESAPTAN HESABA PARA AKTARMA
-                            4- İŞLEM GEÇMİŞİ GÖRÜNTÜLEME
-                            5- ÇIKIŞ
+        
+        if(accountid.empty and accountpass.empty):
+            print("Kullanıcı adı şifre yanlış")
+        
+        while True:
+           
+            if(username == str(accountid.values[0]) and password == str(accountpass.values[0])):      
+                print("""
+                            ****************************BANKA UYGULAMASI****************************
+                                                    
+                                                            HOŞGELDİNİZ
+                                HESAP NO : {}
+                                Bakiye : {}
+                                İsim Soyisim : {}
+                                1- PARA YÜKLE
+                                2- PARA ÇEKME
+                                3- HESAPTAN HESABA PARA AKTARMA
+                                4- İŞLEM GEÇMİŞİ GÖRÜNTÜLEME
+                                5- ÇIKIŞ
+                    
+                    
+                    """.format(username,bakiyeinfo["Balance"].to_string(index=False),userinfo["FullName"][0]))
+                islem1 = input("Yapılacak işlemi seçiniz : ")
+                if(islem1 == "1"):
+                    parayukle()
+                elif(islem1 == "2"):
+                    paracekme()
+                elif(islem1 == "3"):
+                    paragonderme()
+                elif(islem1=="4"):
+                    islemgecmisi()
+                elif(islem1=="5"):
+                    break
+                else:
+                    print("Yanlış İşlem")
+    except ValueError:
+        print("Hesap NUmaranız Harf İÇeremez")
+    except IndexError:
 
-                
-                
-                """.format(username,bakiyeinfo["Balance"].to_string(index=False),userinfo["FullName"][0]))
-            islem1 = input("Yapılacak işlemi seçiniz : ")
-            if(islem1 == "1"):
-                parayukle()
-            elif(islem1 == "2"):
-                paracekme()
-            elif(islem1 == "3"):
-                paragonderme()
-            elif(islem1=="4"):
-                islemgecmisi()
-            elif(islem1=="5"):
-                break
-            else:
-                print("Yanlış İşlem")
+        print("Kullanıcı Adı Şifre Yanlış")
+
+
             
-        else:
-            print("Kullanıcı adı Şİfre yanlışşş")
+
                                 
 def parayukle():
 
-
-    operation = "Para Yükleme"
-    df = pd.read_csv("./store/user-table.csv")
-    df_bakiye = pd.read_csv('./store/bakiye.csv')
-    df_islem_gecmisi = pd.read_csv('./store/islem-gecmisi.csv')
-    miktar = input("Hesaba Yüklenecek Miktarı Giriniz : ")
-    
-    index_control  = df_bakiye.index[df_bakiye["AccountID"].isin([int(username)])].tolist()
-
-    bakiyeinfo = df_bakiye[df_bakiye["AccountID"].isin([int(username)])]
-    
-    
-    if int(miktar) > 0:
-
-        islem = int(bakiyeinfo["Balance"]) + int(miktar)
-        islem = str(islem)
-        balance = int(bakiyeinfo["Balance"]) + 0
-        balance = str(balance)
-        bakiyeinfo = bakiyeinfo.append(bakiyeinfo, ignore_index=True)
+    try:
+        operation = "Para Yükleme"
+        df = pd.read_csv("./store/user-table.csv")
+        df_bakiye = pd.read_csv('./store/bakiye.csv')
+        df_islem_gecmisi = pd.read_csv('./store/islem-gecmisi.csv')
         
-        print("Güncel Bakiyeniz = {}".format(islem))
+        miktar = input("Hesaba Yüklenecek Miktarı Giriniz : ")
 
+        index_control  = df_bakiye.index[df_bakiye["AccountID"].isin([int(username)])].tolist()
+
+        bakiyeinfo = df_bakiye[df_bakiye["AccountID"].isin([int(username)])]
         
         
-
-        transactioninfo = {
-
-            'AccountID' : username,
-            'Balance' : balance,
-            'Quantity' : miktar,
-            'Operation' : operation,
-            'CurrentBalance' : islem,
-            'ForeignCurrency' : "TL",
-
-        }
-        df_bakiye.loc[index_control, 'Balance'] = islem
-        df_bakiye.to_csv('./store/bakiye.csv', index=False)
-        df_islem_gecmisi = df_islem_gecmisi.append(transactioninfo, ignore_index=True)
-        
-        df_islem_gecmisi.to_csv('./store/islem-gecmisi.csv', index=False)
-    else:
-        print("Lütfen 0 tl den büyük bir rakam giriniz ")
-    giris()
-
-def paracekme():
-    operation = "Para Çekme"
-    df = pd.read_csv("./store/user-table.csv")
-    df_bakiye = pd.read_csv('./store/bakiye.csv')
-    miktar = input("Çekmek İstediğiniz Miktarı Giriniz : ")
-    df_islem_gecmisi = pd.read_csv('./store/islem-gecmisi.csv')
-    
-    index_control  = df_bakiye.index[df_bakiye["AccountID"].isin([int(username)])].tolist()
-
-    bakiyeinfo = df_bakiye[df_bakiye["AccountID"].isin([int(username)])]
-    bakiye = int(bakiyeinfo["Balance"])
-    balance = int(bakiyeinfo["Balance"]) + 0
-    balance = str(balance)
-    if(int(bakiye) < int(miktar)):
-        print("Bakiyeniz Yetersiz")
-    
-    else:
-    
         if int(miktar) > 0:
-            islem = int(bakiyeinfo["Balance"]) - int(miktar)
+
+            islem = int(bakiyeinfo["Balance"]) + int(miktar)
             islem = str(islem)
+            balance = int(bakiyeinfo["Balance"]) + 0
+            balance = str(balance)
             bakiyeinfo = bakiyeinfo.append(bakiyeinfo, ignore_index=True)
             
             print("Güncel Bakiyeniz = {}".format(islem))
+
+            
+            
+
             transactioninfo = {
 
-                    'AccountID' : username,
-                    'Balance' : balance,
-                    'Quantity' : miktar,
-                    'Operation' : operation,
-                    'CurrentBalance' : islem,
+                'AccountID' : username,
+                'Balance' : balance,
+                'Quantity' : miktar,
+                'Operation' : operation,
+                'CurrentBalance' : islem,
+                'ForeignCurrency' : "TL",
 
-                    }
-            
-            df_islem_gecmisi = df_islem_gecmisi.append(transactioninfo, ignore_index=True)
+            }
             df_bakiye.loc[index_control, 'Balance'] = islem
-            df_islem_gecmisi.to_csv('./store/islem-gecmisi.csv', index=False)
             df_bakiye.to_csv('./store/bakiye.csv', index=False)
+            df_islem_gecmisi = df_islem_gecmisi.append(transactioninfo, ignore_index=True)
+            
+            df_islem_gecmisi.to_csv('./store/islem-gecmisi.csv', index=False)
         else:
             print("Lütfen 0 tl den büyük bir rakam giriniz ")
         giris()
+    except ValueError:
+
+        print("Lütfen Geçerli bir sayı giriniz.")
+
+def paracekme():
+    try:
+        operation = "Para Çekme"
+        df = pd.read_csv("./store/user-table.csv")
+        df_bakiye = pd.read_csv('./store/bakiye.csv')
+        miktar = input("Çekmek İstediğiniz Miktarı Giriniz : ")
+        df_islem_gecmisi = pd.read_csv('./store/islem-gecmisi.csv')
+        
+        index_control  = df_bakiye.index[df_bakiye["AccountID"].isin([int(username)])].tolist()
+
+        bakiyeinfo = df_bakiye[df_bakiye["AccountID"].isin([int(username)])]
+        bakiye = int(bakiyeinfo["Balance"])
+        balance = int(bakiyeinfo["Balance"]) + 0
+        balance = str(balance)
+        if(int(bakiye) < int(miktar)):
+            print("Bakiyeniz Yetersiz")
+        
+        else:
+        
+            if int(miktar) > 0:
+                islem = int(bakiyeinfo["Balance"]) - int(miktar)
+                islem = str(islem)
+                bakiyeinfo = bakiyeinfo.append(bakiyeinfo, ignore_index=True)
+                
+                print("Güncel Bakiyeniz = {}".format(islem))
+                transactioninfo = {
+
+                        'AccountID' : username,
+                        'Balance' : balance,
+                        'Quantity' : miktar,
+                        'Operation' : operation,
+                        'CurrentBalance' : islem,
+
+                        }
+                
+                df_islem_gecmisi = df_islem_gecmisi.append(transactioninfo, ignore_index=True)
+                df_bakiye.loc[index_control, 'Balance'] = islem
+                df_islem_gecmisi.to_csv('./store/islem-gecmisi.csv', index=False)
+                df_bakiye.to_csv('./store/bakiye.csv', index=False)
+            else:
+                print("Lütfen 0 tl den büyük bir rakam giriniz ")
+            giris()
+    except ValueError:
+        print("Lütfen Geçerli bir sayı giriniz")
        
 def paragonderme():
     alici = input("Para gönderilecek Hesap Numarasını Giriniz : ")
@@ -260,29 +274,29 @@ def islemgecmisi():
     giris()
 
     
+while True:
+    print("""
+    ************************BANKA UYGULAMASI************************
+    Lütfen Öncelikle Giriş Yapınız!!!!!!!
 
-print("""
-************************BANKA UYGULAMASI************************
-Lütfen Öncelikle Giriş Yapınız!!!!!!!
+    1- Hesap Girişi
 
-1- Hesap Girişi
+    2- Hesap Açma
 
-2- Hesap Açma
-
-****************************************************************
+    ****************************************************************
 
 
-""")
+    """)
 
-islem = input("Yapmak İstediğiniz İşlemi Seçiniz : ")
-if(islem == "1"):
-    username = input("Hesap Numaranızı Giriniz : ")
-    password = input("Şifrenizi Giriniz : ")
-    giris()
-elif(islem == "2"):
-    kayit()
-else:
-    print("Yanlış bir tuşlama yaptınız!!!!")
+    islem = input("Yapmak İstediğiniz İşlemi Seçiniz : ")
+    if(islem == "1"):
+        username = input("Hesap Numaranızı Giriniz : ")
+        password = input("Şifrenizi Giriniz : ")
+        giris()
+    elif(islem == "2"):
+        kayit()
+    else:
+        print("Yanlış bir tuşlama yaptınız!!!!")
 
 
 
