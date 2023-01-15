@@ -1,2 +1,5 @@
 AccountID,Balance,CurrentBalance,Operation,Quantity,Recipience,ForeignCurrency
 909429592,100,2600,Para Yükleme,2500,,TL
+966650856,100,25100,Para Yükleme,25000,,TL
+966650856,25100,0,Para Gönderme,25100,Batuhan Yigit,TL
+992802226,100,25200,Gelen Para,25100,Birsen Karakütük,TL
